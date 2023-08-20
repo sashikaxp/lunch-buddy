@@ -1,1 +1,21 @@
 services:
+  lunch-buddy-core:
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+    container_name: lunch-buddy-core
+    ports:
+      - '8080:8080'
+      - '5005:5005' #Debug
+    volumes:
+      - ./:/usr/app
+    networks:
+      - backend
+  redis:
+    image: redis:7.2.0-alpine
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

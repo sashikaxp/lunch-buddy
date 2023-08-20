@@ -1,1 +1,2 @@
-
+app:
+  cacheUrl: "http://redis:6379"
