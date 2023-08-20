@@ -1,4 +1,4 @@
-package com.sashika.demo.lunchbuddy;
+package com.sashika.demo.lunchbuddy.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

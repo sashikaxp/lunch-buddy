@@ -7,6 +7,6 @@ public interface SimpleCache {
 
     String getValue(String key);
 
-
+    long removeKey(String key);
 
 }

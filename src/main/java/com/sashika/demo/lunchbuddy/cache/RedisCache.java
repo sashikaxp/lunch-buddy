@@ -1,6 +1,6 @@
 package com.sashika.demo.lunchbuddy.cache;
 
-import com.sashika.demo.lunchbuddy.AppProperties;
+import com.sashika.demo.lunchbuddy.config.AppProperties;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPooled;
 
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Component
-public class RedisCache implements SimpleCache, AdvancedCache {
+public class RedisCache implements AppCache {
     AppProperties properties;
     JedisPooled jedis;
 
@@ -26,6 +26,11 @@ public class RedisCache implements SimpleCache, AdvancedCache {
     @Override
     public String getValue(String key) {
         return jedis.get(key);
+    }
+
+    @Override
+    public long removeKey(String key) {
+        return jedis.del(key);
     }
 
     @Override
