@@ -12,6 +12,7 @@ const getSession = async (mainSessionId: string) =>{
 
 const closeSession = async (mainSessionId: string) => {
     const res = await external.delete(`http://localhost:8080/sessions/${mainSessionId}`);
+    return res.data;
 }
 
 export default {

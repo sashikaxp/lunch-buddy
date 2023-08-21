@@ -3,18 +3,31 @@ import sessionApi from "../../api/session";
 import {sessionResponse, sessionResType, submissionResponse, submissionResType} from "../../cutom-types";
 import React from "react";
 import Box from "@mui/material/Box";
-import {Button, Chip, List, ListItem, ListItemText, Stack, TextField, Typography} from "@mui/material";
+import {Alert, Button, Chip, List, ListItem, ListItemText, Snackbar, Stack, TextField, Typography} from "@mui/material";
 
 const CreateSession = () => {
     const [sessionId, setSessionId] = React.useState('');
     const [friends, setFriends] = React.useState('5');
     const [session, setSession] = React.useState<sessionResType>();
     const [submission, setSubmission] = React.useState<submissionResType>();
+    const [open, setOpen] = React.useState(false);
+    const [error, setError] = React.useState('');
 
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+        setError('');
+    };
     const onCreate = () => {
         sessionApi.createSession(friends).then(value => {
             const parse: sessionResType = sessionResponse.parse(value);
             setSession(parse);
+        }).catch(reason => {
+            setError(reason.message + ','+ reason.response.data);
+            setOpen(true);
         });
     }
 
@@ -22,6 +35,9 @@ const CreateSession = () => {
         sessionApi.getSession(sessionId).then(value => {
             const parse: sessionResType = sessionResponse.parse(value);
             setSession(parse);
+        }).catch(reason => {
+            setError(reason.message + ','+ reason.response.data);
+            setOpen(true);
         });
     }
 
@@ -29,6 +45,10 @@ const CreateSession = () => {
         sessionApi.closeSession(sessionId).then(value => {
             const parse: submissionResType = submissionResponse.parse(value);
             setSubmission(parse);
+        }).catch(reason => {
+            console.log('Error closing',reason);
+            setError(reason.message + ','+ reason.response.data);
+            setOpen(true);
         });
     }
     const onFriendsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +116,11 @@ const CreateSession = () => {
                     </Stack>
                 </Box>
             )}
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {error}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }

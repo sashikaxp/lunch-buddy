@@ -1,5 +1,17 @@
 import Box from "@mui/material/Box";
-import {Button, Chip, Divider, Link, List, ListItem, ListItemText, Stack, TextField, Typography} from "@mui/material";
+import {
+    Alert,
+    Button,
+    Chip,
+    Divider,
+    Link,
+    List,
+    ListItem,
+    ListItemText, Snackbar,
+    Stack,
+    TextField,
+    Typography
+} from "@mui/material";
 import React from "react";
 import submissionApi from "../../api/submission";
 import {submissionResponse, submissionResType} from "../../cutom-types";
@@ -8,11 +20,24 @@ const Home = () => {
     const [sessionId, setSessionId] = React.useState('');
     const [suggestion, setSuggestion] = React.useState('');
     const [submission, setSubmission] = React.useState<submissionResType>();
+    const [open, setOpen] = React.useState(false);
+    const [error, setError] = React.useState('');
 
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+        setError('');
+    };
     const onAdd = () => {
         submissionApi.sendSubmission(sessionId,suggestion).then(value => {
             const parse: submissionResType = submissionResponse.parse(value);
             setSubmission(parse);
+        }).catch(reason => {
+            setError(reason.message + ','+ reason.response.data);
+            setOpen(true);
         });
     }
 
@@ -20,6 +45,9 @@ const Home = () => {
         submissionApi.getSubmission(sessionId).then(value => {
             const parse: submissionResType = submissionResponse.parse(value);
             setSubmission(parse);
+        }).catch(reason => {
+            setError(reason.message + ','+ reason.response.data);
+            setOpen(true);
         });
     }
     const onSessionIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +98,11 @@ const Home = () => {
                     <Link href="/create-session">Create session</Link>
                 </Stack>
             </Box>
-
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {error}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }
