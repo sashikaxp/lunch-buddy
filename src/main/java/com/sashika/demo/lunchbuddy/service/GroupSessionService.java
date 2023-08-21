@@ -37,10 +37,10 @@ public class GroupSessionService implements SessionService {
         for (int i = 0; i < sessionCreateRequest.numOfFriends(); i++) {
             String subSession = UUID.randomUUID().toString();
             subSessions.add(subSession);
-            //Track which sub sessions are related to main session
+            //Track which sub sessions are related to main session (forward link)
             appCache.addToMembers(mainSession, subSession);
 
-            //Keep track sub sessions reference to the parent session
+            //Keep track sub sessions reference to the parent session (backward link)
             appCache.setFieldValue(subSession, MAIN_SESSION_REF, mainSession);
         }
 
@@ -67,8 +67,8 @@ public class GroupSessionService implements SessionService {
     }
 
     /**
-     * Closes an active restaurant selection session identified by the provided mainSessionId. This will also
-     * randomly select a restaurant from the user submissions and update the final-selection field of each user's
+     * Closes an active 'restaurant selection' session identified by the provided mainSessionId. This will also
+     * randomly select a restaurant from the user submissions and update the 'final-selection' field of each user's
      * sub session, so that they can see what is the final selection.
      * @param mainSessionId
      * @return
@@ -85,7 +85,7 @@ public class GroupSessionService implements SessionService {
             final String chosen = allSubmissions.get(random.nextInt(allSubmissions.size()));
             members.forEach(m -> {
                 appCache.setFieldValue(m, FINAL_SELECTION, chosen);
-                //Disconnect sub sessions from main session as no longer needed.
+                //Disconnect reference to the main session from sub sessions as it is no longer needed.
                 appCache.setFieldValue(m, MAIN_SESSION_REF, "");
             });
             appCache.removeKey(mainSessionId);

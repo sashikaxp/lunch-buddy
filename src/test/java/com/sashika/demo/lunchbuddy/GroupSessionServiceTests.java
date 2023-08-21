@@ -1,7 +1,6 @@
 package com.sashika.demo.lunchbuddy;
 
 import com.sashika.demo.lunchbuddy.cache.AppCache;
-import com.sashika.demo.lunchbuddy.cache.RedisCache;
 import com.sashika.demo.lunchbuddy.dto.SessionCreateRequest;
 import com.sashika.demo.lunchbuddy.dto.SessionResponse;
 import com.sashika.demo.lunchbuddy.dto.SubmissionCreateRequest;
