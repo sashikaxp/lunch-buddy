@@ -11,7 +11,8 @@ git clone git@github.com:sashikaxp/lunch-buddy.git
 ```
 
 ## Running a development server locally
-  > ***Please note you will need Docker, Java 17 and Node Js 16+ installed on your local machine in order to run this application***> 
+  > ***Please note you will need Docker, Java 17, npm, yarn and Node Js 16+ installed on your local machine in order to run this application.
+> Please refer to respective documentation relevant for your platform***> 
 
 ### Starting the backend
 You can start the Java backend and a local Redis instance by running the following command inside the project root directory
