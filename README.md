@@ -4,15 +4,53 @@ An application allowing users to create group sessions, invite others to join th
 
 The application consist of two components - a Java backend that mediates the session and submission handling with a Redis cache and a React front end for the users to interact with the backend.
 
+Clone the app to your desired location as follows
+
+```D
+git clone git@github.com:sashikaxp/lunch-buddy.git
+```
+
 ## Running a development server locally
   > ***Please note you will need Docker, Java 17 and Node Js 16+ installed on your local machine in order to run this application***> 
 
+### Starting the backend
 You can start the Java backend and a local Redis instance by running the following command inside the project root directory
 
 ```D
 docker-compose up --build
 ```
+This will take few minutes to complete as it will download maven dependencies and will create the docker image. Thi docker image is optimized for development and debuging. Subsequent to this initial build you can just run the 
+following command if you do not have any new changes (eg new dependencies) that you think need to push into the image.
 
+```D
+docker-compose up
+```
+
+If everything is ok then application and redis instance will be up and the application will connect to the Redis instance successfully.
+At this point you can start using the application API as follows
+
+- API docs `http://localhost:8080/v3/api-docs`
+- Swagger UI on API docs - `http://localhost:8080/swagger-ui/index.html#/`
+
+### Starting the React front end
+
+In your terminal from the project root, change the directory to `webapp/my-app/`. Then use the following command to download dependencies
+
+```D
+yarn install
+```
+
+After downloading the dependencies you can run the following command to bring up the local UI server
+
+```D
+yarn start
+```
+
+This will start the local development server hosting the UI and if successful the application will be opened in your default browser. Create a session then invite others with the invitation codes and ask them to submit restaurant suggestions. Enjoy!
+
+### Debugging the backend
+
+The Java backend service is started in debug mode and 5005 debug port is exposed outside the docker container. So anyone who needs to debug the app can do so by connecting to debug port.
 
 ## Architecture
 
