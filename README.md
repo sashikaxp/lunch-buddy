@@ -69,7 +69,8 @@ The main items keeps track of who the member items. Each member item is also kee
 
 #### Submit suggestion against a sub session
 
-![image](https://github.com/sashikaxp/lunch-buddy/assets/435142/3e745a4c-93b6-4635-be7c-dde57e0ea5d4)
+![image](https://github.com/sashikaxp/lunch-buddy/assets/435142/9605c720-ec9f-48f7-b31a-477e09ff5b12)
+
 
 Suggestions are submitted only against sub sessions.
 
